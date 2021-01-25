@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import classes from './Cockpit.module.css';
+import AuthContext from '../../context/auth-context';
 
 const cockpit = (props) => {
     const toggleButtonRef = useRef(null);
@@ -8,7 +9,7 @@ const cockpit = (props) => {
         console.log('[Cockpit.js] useEffect');
         // Http request...
         // setTimeout(() => {
-        //     alert('Saved data to cloud!');
+        //   alert('Saved data to cloud!');
         // }, 1000);
         toggleButtonRef.current.click();
         return () => {
@@ -38,14 +39,16 @@ const cockpit = (props) => {
     }
 
     return (
-    <div className={classes.Cockpit}>
-        <h1>{props.title}</h1>
-        <p className={assignedClasses.join(' ')}>This is really working!</p>
-        <button ref={toggleButtonRef} className={btnClass} onClick={props.clicked}>
-            Toggle Persons
-        </button>
-        <button onClick={props.login}>Log in</button>
-    </div>);
+        <div className={classes.Cockpit}>
+            <h1>{props.title}</h1>
+            <p className={assignedClasses.join(' ')}>This is really working!</p>
+            <button ref={toggleButtonRef} className={btnClass} onClick={props.clicked}>
+                Toggle Persons
+            </button>
+            <AuthContext.Consumer>
+                {(context) => <button onClick={context.login}>Log in</button>}
+            </AuthContext.Consumer>
+        </div>);
 };
 
 export default React.memo(cockpit);
